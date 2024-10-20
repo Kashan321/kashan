@@ -19,9 +19,6 @@ import Headroom from 'react-headroom'
 import Contact from './Contact'
 import DownloadIcon from '@mui/icons-material/Download';
 import Resume from "../assets/kashan_v2.pdf"
-import ScrollAnimation from 'react-animate-on-scroll';
-
-
 
 const projects = [
     { id: 1, title: 'Project 1', description: 'Ev Charger Station Finder In React Native', image: img },
@@ -49,9 +46,7 @@ function ThemeToggle() {
 
 function Portfolio() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const { theme } = useContext(ThemeContext) // Use the context correctly
-
-    // The useEffect ensures dark mode is applied on mount
+    const { theme } = useContext(ThemeContext) 
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark')
     }, [theme])
@@ -101,22 +96,19 @@ function Portfolio() {
                 </nav>
             </Headroom>
 
-
-
-
             <main>
                 <main>
                     <section className="bg-white dark:bg-gray-800 sm:h-[60vh] h-[50vh]">
                         <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
                             <div className="text-center">
-                                <ScrollAnimation animateIn="fadeIn">
+                                
                                     <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
                                         Welcome to My Portfolio
                                     </h1>
                                     <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
                                         I'm a passionate Software Engineer, Professional In React and React Native
                                     </p>
-                                </ScrollAnimation>
+                               
 
                                 <div className="mt-6 flex justify-center space-x-3">
                                     <a
@@ -139,12 +131,11 @@ function Portfolio() {
                         </div>
                     </section>
 
-
                     <section id="projects" className="bg-gray-100 dark:bg-gray-900 py-16 z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <ScrollAnimation animateIn='fadeIn' >
+                            
                                 <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">My Projects</h2>
-                            </ScrollAnimation>
+                            
                             <Swiper
                                 spaceBetween={30}
                                 slidesPerView={1}
