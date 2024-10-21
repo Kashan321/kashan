@@ -10,7 +10,7 @@ import Footer from './Footer'
 import AboutMe from './AboutMe'
 import FancyLog from './FancyLog'
 import img from "../assets/Images/ev.png"
-import MERN_JWT from "../assets/Images/MERN_JWT.png"
+import MERN_JWT from "../assets/Images/Mern_JWT-Cr3Uauvl.png"
 import Weather from "../assets/Images/Weather.png"
 import openAi from "../assets/Images/openAi.jpeg"
 import DASHBOARD from "../assets/Images/DASHBOARD.avif"
