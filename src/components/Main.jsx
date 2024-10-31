@@ -18,7 +18,7 @@ import Project from "../assets/Images/Projects.png"
 import Headroom from 'react-headroom'
 import Contact from './Contact'
 import DownloadIcon from '@mui/icons-material/Download';
-import Resume from "../assets/kashan_v2.pdf"
+import Resume from "../assets/resume/Kashan-Updated-Resume.pdf"
 
 const projects = [
     { id: 1, title: 'Project 1', description: 'Ev Charger Station Finder In React Native', image: img },
