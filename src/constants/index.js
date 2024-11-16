@@ -3,7 +3,7 @@ import auth_mern from '../assets/Images/Mern_JWT-Cr3Uauvl.png'
 import weather from '../assets/Images/Weather.png'
 import GPT from '../assets/Images/openAi.png'
 import Dashboard from '../assets/Images/DASHBOARD.png'
-import other_images from '../assets/Images/projects.png'
+import other_images from '../assets/Images/more_projects.png'
 import restify from '../assets/Images/easy-restify.png'
 
 export const projects = [

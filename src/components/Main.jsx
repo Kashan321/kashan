@@ -14,7 +14,7 @@ import MERN_JWT from "../assets/Images/Mern_JWT-Cr3Uauvl.png"
 import Weather from "../assets/Images/Weather.png"
 import openAi from "../assets/Images/openAi.png"
 import DASHBOARD from "../assets/Images/DASHBOARD.png"
-import Project from "../assets/Images/Projects.png"
+import Project from "../assets/Images/more_projects.png"
 import restify from '../assets/Images/easy-restify.png'
 
 import Headroom from 'react-headroom'
