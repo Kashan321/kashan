@@ -3,8 +3,9 @@ import auth_mern from '../assets/Images/Mern_JWT-Cr3Uauvl.png'
 import weather from '../assets/Images/Weather.png'
 import GPT from '../assets/Images/openAi.jpeg'
 import Dashboard from '../assets/Images/DASHBOARD.avif'
-import project_img from '../assets/Images/projects.png'
+import other_images from '../assets/Images/projects.png'
 import restify from '../assets/Images/easy-restify.png'
+
 export const projects = [
     {
         id: 1,
@@ -65,7 +66,7 @@ export const projects = [
         title: 'More Than 15+ Projects',
         description: 'Description for Project',
         LongDescription: 'I have deployed and created over 15+ full-stack and front-end projects, showcasing a wide range of technologies and solutions. These projects span various domains, from interactive web applications to complex dashboards, and are built using modern frameworks like React, Node.js, and Express. You can explore these open-source projects on my GitHub, where I share my work, code, and contributions to the developer community. Feel free to check it out for inspiration or collaboration!',
-        image: project_img,
+        image: other_images,
         technologies: ['JavaScript', 'React', 'React Native', 'Tailwind', 'Material-UI', 'React-Charts'],
         githubLink: 'https://github.com/Kashan321'
     }
