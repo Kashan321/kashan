@@ -15,18 +15,23 @@ import Weather from "../assets/Images/Weather.png"
 import openAi from "../assets/Images/openAi.jpeg"
 import DASHBOARD from "../assets/Images/DASHBOARD.avif"
 import Project from "../assets/Images/Projects.png"
+import restify from '../assets/Images/easy-restify.png'
+
 import Headroom from 'react-headroom'
 import Contact from './Contact'
 import DownloadIcon from '@mui/icons-material/Download';
-import Resume from "../assets/resume/Kashan-Updated-Resume.pdf"
+import Resume from '../assets/resume/kashan-resume-november.pdf'
+import { Link } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link';
 
 const projects = [
     { id: 1, title: 'Project 1', description: 'Ev Charger Station Finder In React Native', image: img },
-    { id: 2, title: 'Project 2', description: 'Full Stack Authentication App in MERN', image: MERN_JWT },
-    { id: 3, title: 'Project 3', description: 'Professional Weather App In React', image: Weather },
-    { id: 4, title: 'Project 4', description: 'Worked With OpenAI As React Engineer', image: openAi },
-    { id: 5, title: 'Project 5', description: 'Frontend Dashboard Project', image: DASHBOARD },
-    { id: 6, title: 'Project 6', description: '15+ FullStack/Frontednd Projects ', image: Project },
+    { id: 2, title: 'Project 2', description: 'easy-restify Open-Source ', image: restify },
+    { id: 3, title: 'Project 3', description: 'Full Stack Authentication App in MERN', image: MERN_JWT },
+    { id: 4, title: 'Project 4', description: 'Professional Weather App In React', image: Weather },
+    { id: 5, title: 'Project 5', description: 'Worked With OpenAI As React Engineer', image: openAi },
+    { id: 6, title: 'Project 6', description: 'Frontend Dashboard Project', image: DASHBOARD },
+    { id: 7, title: 'Project 7', description: '15+ FullStack/Frontednd Projects ', image: Project },
 ]
 
 const skills = ['React', 'JavaScript', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Next.js', "MERN"]
@@ -46,7 +51,7 @@ function ThemeToggle() {
 
 function Portfolio() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const { theme } = useContext(ThemeContext) 
+    const { theme } = useContext(ThemeContext)
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark')
     }, [theme])
@@ -63,11 +68,11 @@ function Portfolio() {
                                 </div>
                             </div>
                             <div className="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-8 ">
-                                <a href="#projects" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                                <a href="#skills" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Skills</a>
-                                <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                                <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                                <a href="#fancy-log" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Planning</a>
+                                <HashLink to="#projects" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</HashLink>
+                                <HashLink to="#skills" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Skills</HashLink>
+                                <HashLink to="#about" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</HashLink>
+                                <HashLink to="#contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</HashLink>
+                                <HashLink to="#fancy-log" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Planning</HashLink>
                                 <ThemeToggle />
                             </div>
                             <div className="-mr-2 flex items-center sm:hidden">
@@ -84,12 +89,12 @@ function Portfolio() {
                     </div>
                     {isMenuOpen && (
                         <div className="sm:hidden">
-                            <div className="pt-2 pb-3 space-y-1">
-                                <a href="#projects" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                                <a href="#skills" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
-                                <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">About Me</a>
-                                <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
-                                <a href="#fancy-log" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">Fancy Log</a>
+                            <div className="pt-2 pb-3 space-y-1 flex flex-col">
+                                <HashLink to="#projects" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</HashLink>
+                                <HashLink to="#skills" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Skills</HashLink>
+                                <HashLink to="#about" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</HashLink>
+                                <HashLink to="#contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</HashLink>
+                                <HashLink to="#fancy-log" className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">Planning</HashLink>
                             </div>
                         </div>
                     )}
@@ -101,14 +106,14 @@ function Portfolio() {
                     <section className="bg-white dark:bg-gray-800 sm:h-[60vh] h-[50vh]">
                         <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
                             <div className="text-center">
-                                
-                                    <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
-                                        Welcome to My Portfolio
-                                    </h1>
-                                    <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
-                                        I'm a passionate Software Engineer, Professional In React and React Native
-                                    </p>
-                               
+
+                                <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
+                                    Welcome to My Portfolio
+                                </h1>
+                                <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
+                                    I'm a passionate Software Engineer, Professional In React and React Native
+                                </p>
+
 
                                 <div className="mt-6 flex justify-center space-x-3">
                                     <a
@@ -127,15 +132,16 @@ function Portfolio() {
                                         </a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </section>
 
                     <section id="projects" className="bg-gray-100 dark:bg-gray-900 py-16 z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            
-                                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">My Projects</h2>
-                            
+
+                            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">My Projects</h2>
+
                             <Swiper
                                 spaceBetween={30}
                                 slidesPerView={1}
@@ -153,13 +159,15 @@ function Portfolio() {
                             >
                                 {projects.map((project) => (
                                     <SwiperSlide key={project.id}>
-                                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden h-full">
-                                            <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
-                                            <div className="p-3">
-                                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{project.title}</h3>
-                                                <p className="text-gray-600 dark:text-gray-400">{project.description}</p>
+                                        <Link to={`/project/${project.id}`}>  
+                                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden h-full">
+                                                <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                                                <div className="p-3">
+                                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{project.title}</h3>
+                                                    <p className="text-gray-600 dark:text-gray-400">{project.description}</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </SwiperSlide>
                                 ))}
                             </Swiper>

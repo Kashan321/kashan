@@ -1,4 +1,5 @@
-import { Linkedin, Mail, Github } from 'lucide-react'
+import { Linkedin, Mail, Github, Activity } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -14,18 +15,22 @@ function Footer() {
 
           {/* Right section: Social Icons */}
           <div className="flex justify-center space-x-6">
-            <a href="https://github.com/Kashan321" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            <Link to="https://github.com/Kashan321" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
               <span className="sr-only">GitHub</span>
               <Github className="h-6 w-6" />
-            </a>
-            <a href="https://linkedin.com/in/mkashanhaider" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            </Link>
+            <Link to="https://linkedin.com/in/mkashanhaider" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
               <span className="sr-only">LinkedIn</span>
               <Linkedin className="h-6 w-6" />
-            </a>
-            <a href="mailto:muhammadkashanhaider3241@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+            </Link>
+            <Link to="https://www.npmjs.com/~kashan3241" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+              <span className="sr-only">LinkedIn</span>
+              <Activity className="h-6 w-6" />
+            </Link>
+            <Link to="mailto:muhammadkashanhaider3241@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
               <span className="sr-only">Email</span>
               <Mail className="h-6 w-6" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

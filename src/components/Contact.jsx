@@ -5,6 +5,7 @@ import { TextField, Button, CircularProgress } from '@mui/material';
 import { Linkedin, Mail, Github } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import { Link } from 'react-router-dom';
 
 const Contact = () => {
     const msg = "Send Message"
@@ -129,18 +130,18 @@ const Contact = () => {
 
                 {/* Social Links */}
                 <div className="flex justify-center space-x-6">
-                    <a href="https://github.com/Kashan321" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    <Link to="https://github.com/Kashan321" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                         <span className="sr-only">GitHub</span>
                         <Github className="h-6 w-6" />
-                    </a>
-                    <a  href="https://linkedin.com/in/mkashanhaider" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    </Link>
+                    <Link  to="https://linkedin.com/in/mkashanhaider" target='_blank' className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                         <span className="sr-only">LinkedIn</span>
                         <Linkedin className="h-6 w-6" />
-                    </a>
-                    <a href="mailto:muhammadkashanhaider3241@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    </Link>
+                    <Link to="mailto:muhammadkashanhaider3241@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                         <span className="sr-only">Email</span>
                         <Mail className="h-6 w-6" />
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Toast Container */}
