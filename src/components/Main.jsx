@@ -12,8 +12,8 @@ import FancyLog from './FancyLog'
 import img from "../assets/Images/ev.png"
 import MERN_JWT from "../assets/Images/Mern_JWT-Cr3Uauvl.png"
 import Weather from "../assets/Images/Weather.png"
-import openAi from "../assets/Images/openAi.jpeg"
-import DASHBOARD from "../assets/Images/DASHBOARD.avif"
+import openAi from "../assets/Images/openAi.png"
+import DASHBOARD from "../assets/Images/DASHBOARD.png"
 import Project from "../assets/Images/Projects.png"
 import restify from '../assets/Images/easy-restify.png'
 

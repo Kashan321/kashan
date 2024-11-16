@@ -1,8 +1,8 @@
 import ev_img from '../assets/Images/ev.png'
 import auth_mern from '../assets/Images/Mern_JWT-Cr3Uauvl.png'
 import weather from '../assets/Images/Weather.png'
-import GPT from '../assets/Images/openAi.jpeg'
-import Dashboard from '../assets/Images/DASHBOARD.avif'
+import GPT from '../assets/Images/openAi.png'
+import Dashboard from '../assets/Images/DASHBOARD.png'
 import other_images from '../assets/Images/projects.png'
 import restify from '../assets/Images/easy-restify.png'
 
