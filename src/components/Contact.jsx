@@ -23,7 +23,7 @@ const Contact = () => {
         }),
         onSubmit: (values, { resetForm }) => {
             setLoading(true); 
-            fetch('https://getform.io/f/aqongwra', {
+            fetch('https://formspree.io/f/xjkvvnvn', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ const Contact = () => {
             })
                 .then((response) => {
                     if (response.ok) {
-                        toast.success('I HAVE RECEIVED YOUR MESSAGE! APPRECIATED', {
+                        toast.success('I HAVE RECEIVED YOUR MESSAGE! APPRECIATED😎', {
                             position: 'top-right',
                         });
                         resetForm();
