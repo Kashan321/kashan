@@ -5,11 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/src/assets/portfolio.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kashan's Portfolio</title>
+
     <script>
-      (function () {
+      window.addEventListener("load", function () {
         const TRACKING_ENDPOINT = "https://heatmap-beta.vercel.app/api/collect";
         const WEBSITE_ID = "67fe10023c110f8bbbd0fe04";
-        // Initialize tracking data
+        console.log("[Heatmap] Tracking script loaded");
         let sessionId = generateSessionId();
         let clicks = [];
         let scrollDepths = [];
@@ -19,15 +20,16 @@
           document.body.scrollHeight,
           document.documentElement.scrollHeight
         );
-        // Track clicks
+        console.log("[Heatmap] Session initialized:", sessionId);
         document.addEventListener("click", function (e) {
-          clicks.push({
+          const clickData = {
             x: e.pageX,
             y: e.pageY,
             timestamp: Date.now(),
-          });
+          };
+          clicks.push(clickData);
+          console.log("[Heatmap] Click recorded:", clickData);
         });
-        // Track scroll depth
         let maxScrollDepth = 0;
         document.addEventListener("scroll", function () {
           const scrollTop =
@@ -38,20 +40,29 @@
           );
           if (scrollDepth > maxScrollDepth) {
             maxScrollDepth = scrollDepth;
-            scrollDepths.push({
+            const depthData = {
               depth: scrollDepth,
               timestamp: Date.now(),
-            });
+            };
+            scrollDepths.push(depthData);
+            console.log("[Heatmap] New scroll depth recorded:", depthData);
           }
         });
-        // Send data before user leaves the page
         window.addEventListener("beforeunload", function () {
+          console.log("[Heatmap] Page is unloading, sending final data...");
           sendData();
         });
-        // Send data periodically (every 30 seconds)
-        setInterval(sendData, 30000);
+        setInterval(function () {
+          console.log(
+            "[Heatmap] Interval triggered, preparing to send data..."
+          );
+          sendData();
+        }, 30000);
         function sendData() {
-          if (clicks.length === 0 && scrollDepths.length === 0) return;
+          if (clicks.length === 0 && scrollDepths.length === 0) {
+            console.log("[Heatmap] No new data to send.");
+            return;
+          }
           const data = {
             websiteId: WEBSITE_ID,
             sessionId: sessionId,
@@ -67,9 +78,13 @@
             userAgent: navigator.userAgent,
             timestamp: Date.now(),
           };
-          // Use sendBeacon for more reliable data sending when page is unloading
+          console.log("[Heatmap] Sending data to server:", data);
           if (navigator.sendBeacon) {
-            navigator.sendBeacon(TRACKING_ENDPOINT, JSON.stringify(data));
+            const success = navigator.sendBeacon(
+              TRACKING_ENDPOINT,
+              JSON.stringify(data)
+            );
+            console.log("[Heatmap] sendBeacon result:", success);
           } else {
             fetch(TRACKING_ENDPOINT, {
               method: "POST",
@@ -78,11 +93,14 @@
               headers: {
                 "Content-Type": "application/json",
               },
-            }).catch((err) =>
-              console.error("Error sending tracking data:", err)
-            );
+            })
+              .then((response) =>
+                console.log("[Heatmap] Data sent, status:", response.status)
+              )
+              .catch((err) =>
+                console.error("[Heatmap] Error sending data:", err)
+              );
           }
-          // Clear sent data
           clicks = [];
           scrollDepths = [];
         }
@@ -96,7 +114,7 @@
             }
           );
         }
-      })();
+      });
     </script>
   </head>
   <body>
