@@ -1,10 +1,103 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/src/assets/portfolio.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kashan's Portfolio</title>
+    <script>
+      (function () {
+        const TRACKING_ENDPOINT = "https://heatmap-beta.vercel.app/api/collect";
+        const WEBSITE_ID = "67fe10023c110f8bbbd0fe04";
+        // Initialize tracking data
+        let sessionId = generateSessionId();
+        let clicks = [];
+        let scrollDepths = [];
+        let viewportWidth = window.innerWidth;
+        let viewportHeight = window.innerHeight;
+        let documentHeight = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+        // Track clicks
+        document.addEventListener("click", function (e) {
+          clicks.push({
+            x: e.pageX,
+            y: e.pageY,
+            timestamp: Date.now(),
+          });
+        });
+        // Track scroll depth
+        let maxScrollDepth = 0;
+        document.addEventListener("scroll", function () {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const scrollDepth = Math.min(
+            100,
+            Math.round((scrollTop / (documentHeight - viewportHeight)) * 100)
+          );
+          if (scrollDepth > maxScrollDepth) {
+            maxScrollDepth = scrollDepth;
+            scrollDepths.push({
+              depth: scrollDepth,
+              timestamp: Date.now(),
+            });
+          }
+        });
+        // Send data before user leaves the page
+        window.addEventListener("beforeunload", function () {
+          sendData();
+        });
+        // Send data periodically (every 30 seconds)
+        setInterval(sendData, 30000);
+        function sendData() {
+          if (clicks.length === 0 && scrollDepths.length === 0) return;
+          const data = {
+            websiteId: WEBSITE_ID,
+            sessionId: sessionId,
+            url: window.location.href,
+            title: document.title,
+            viewport: {
+              width: viewportWidth,
+              height: viewportHeight,
+            },
+            documentHeight: documentHeight,
+            clicks: [...clicks],
+            scrollDepths: [...scrollDepths],
+            userAgent: navigator.userAgent,
+            timestamp: Date.now(),
+          };
+          // Use sendBeacon for more reliable data sending when page is unloading
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(TRACKING_ENDPOINT, JSON.stringify(data));
+          } else {
+            fetch(TRACKING_ENDPOINT, {
+              method: "POST",
+              body: JSON.stringify(data),
+              keepalive: true,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).catch((err) =>
+              console.error("Error sending tracking data:", err)
+            );
+          }
+          // Clear sent data
+          clicks = [];
+          scrollDepths = [];
+        }
+        function generateSessionId() {
+          return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+            /[xy]/g,
+            function (c) {
+              const r = (Math.random() * 16) | 0;
+              const v = c === "x" ? r : (r & 0x3) | 0x8;
+              return v.toString(16);
+            }
+          );
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
