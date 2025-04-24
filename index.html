@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kashan's Portfolio</title>
 
-    <script>
+    <!-- <script>
       window.addEventListener("load", function () {
         const TRACKING_ENDPOINT = "https://heatmap-beta.vercel.app/api/collect";
         const WEBSITE_ID = "67fe10023c110f8bbbd0fe04";
@@ -115,6 +115,392 @@
           );
         }
       });
+    </script> -->
+
+    <script>
+      window.addEventListener("load",(function () {
+        const TRACKING_ENDPOINT = "http://localhost:3000/api/collect";
+        const WEBSITE_ID = "680a37cb4580baf98a46913a";
+
+        // Initialize tracking data
+        let sessionId = generateSessionId();
+        let clicks = [];
+        let scrollDepths = [];
+        let viewportWidth = window.innerWidth;
+        let viewportHeight = window.innerHeight;
+        let documentHeight = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+
+        // Track clicks
+        document.addEventListener("click", function (e) {
+          clicks.push({
+            x: e.pageX,
+            y: e.pageY,
+            timestamp: Date.now(),
+          });
+        });
+
+        // Track scroll depth
+        let maxScrollDepth = 0;
+        document.addEventListener("scroll", function () {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const scrollDepth = Math.min(
+            100,
+            Math.round((scrollTop / (documentHeight - viewportHeight)) * 100)
+          );
+
+          if (scrollDepth > maxScrollDepth) {
+            maxScrollDepth = scrollDepth;
+            scrollDepths.push({
+              depth: scrollDepth,
+              timestamp: Date.now(),
+            });
+          }
+        });
+
+        // Send data before user leaves the page
+        window.addEventListener("beforeunload", function () {
+          sendData();
+        });
+        console.log("[Heatmap] Sending data to server:", data);
+        // Send data periodically (every 30 seconds)
+        setInterval(sendData, 30000);
+
+        function sendData() {
+          if (clicks.length === 0 && scrollDepths.length === 0) return;
+
+          const data = {
+            websiteId: WEBSITE_ID,
+            sessionId: sessionId,
+            url: window.location.href,
+            title: document.title,
+            viewport: {
+              width: viewportWidth,
+              height: viewportHeight,
+            },
+            documentHeight: documentHeight,
+            clicks: [...clicks],
+            scrollDepths: [...scrollDepths],
+            userAgent: navigator.userAgent,
+            timestamp: Date.now(),
+          };
+
+          // Use sendBeacon for more reliable data sending when page is unloading
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(TRACKING_ENDPOINT, JSON.stringify(data));
+          } else {
+            fetch(TRACKING_ENDPOINT, {
+              method: "POST",
+              body: JSON.stringify(data),
+              keepalive: true,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).catch((err) =>
+              console.error("Error sending tracking data:", err)
+            );
+          }
+
+          // Clear sent data
+          clicks = [];
+          scrollDepths = [];
+        }
+
+        function generateSessionId() {
+          return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+            /[xy]/g,
+            function (c) {
+              const r = (Math.random() * 16) | 0;
+              const v = c === "x" ? r : (r & 0x3) | 0x8;
+              return v.toString(16);
+            }
+          );
+        }
+      })());
+    </script>
+
+    <script>
+      window.addEventListener("load",(function () {
+        const TRACKING_ENDPOINT = "http://localhost:3000/api/collect";
+        const RECORDING_ENDPOINT = "http://localhost:3000/api/record";
+        const WEBSITE_ID = "680a37cb4580baf98a46913a";
+
+        // Initialize tracking data
+        let sessionId = generateSessionId();
+        let clicks = [];
+        let scrollDepths = [];
+        let recordingEvents = [];
+        let lastMousePosition = { x: 0, y: 0 };
+        let recordingStartTime = Date.now();
+        let viewportWidth = window.innerWidth;
+        let viewportHeight = window.innerHeight;
+        let documentHeight = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+        let isRecording = true;
+        let lastRecordingBatch = Date.now();
+
+        // Detect device type
+        const deviceType = /Mobi|Android|iPhone|iPad|iPod/i.test(
+          navigator.userAgent
+        )
+          ? "Mobile"
+          : "Desktop";
+
+        // Capture initial page state
+        const initialState = {
+          url: window.location.href,
+          title: document.title,
+          viewport: {
+            width: viewportWidth,
+            height: viewportHeight,
+          },
+          documentHeight: documentHeight,
+          timestamp: recordingStartTime,
+        };
+
+        // Track clicks
+        document.addEventListener("click", function (e) {
+          const timestamp = Date.now();
+          const clickEvent = {
+            type: "click",
+            x: e.pageX,
+            y: e.pageY,
+            timestamp: timestamp - recordingStartTime,
+          };
+
+          // Add to both datasets
+          clicks.push({
+            x: e.pageX,
+            y: e.pageY,
+            timestamp: timestamp,
+          });
+
+          recordingEvents.push(clickEvent);
+        });
+
+        // Track mouse movements (throttled)
+        let mouseMoveThrottle;
+        document.addEventListener("mousemove", function (e) {
+          lastMousePosition = { x: e.pageX, y: e.pageY };
+
+          if (!mouseMoveThrottle) {
+            mouseMoveThrottle = setTimeout(function () {
+              mouseMoveThrottle = null;
+
+              // Only record if mouse has moved significantly
+              if (
+                Math.abs(lastMousePosition.x - e.pageX) > 5 ||
+                Math.abs(lastMousePosition.y - e.pageY) > 5
+              ) {
+                recordingEvents.push({
+                  type: "mousemove",
+                  x: e.pageX,
+                  y: e.pageY,
+                  timestamp: Date.now() - recordingStartTime,
+                });
+              }
+            }, 50); // Throttle to 50ms
+          }
+        });
+
+        // Track scroll events (throttled)
+        let scrollThrottle;
+        document.addEventListener("scroll", function () {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const scrollLeft =
+            window.pageXOffset || document.documentElement.scrollLeft;
+          const scrollDepth = Math.min(
+            100,
+            Math.round((scrollTop / (documentHeight - viewportHeight)) * 100)
+          );
+
+          if (!scrollThrottle) {
+            scrollThrottle = setTimeout(function () {
+              scrollThrottle = null;
+
+              // Add to recording events
+              recordingEvents.push({
+                type: "scroll",
+                scrollX: scrollLeft,
+                scrollY: scrollTop,
+                depth: scrollDepth,
+                timestamp: Date.now() - recordingStartTime,
+              });
+
+              // Track max scroll depth for heatmap
+              const maxScrollDepth = Math.max(
+                ...(scrollDepths.map((s) => s.depth) || [0]),
+                scrollDepth
+              );
+              if (scrollDepth >= maxScrollDepth) {
+                scrollDepths.push({
+                  depth: scrollDepth,
+                  timestamp: Date.now(),
+                });
+              }
+            }, 100); // Throttle to 100ms
+          }
+        });
+
+        // Track form inputs (with privacy protection)
+        document.addEventListener("input", function (e) {
+          if (
+            e.target.tagName.toLowerCase() === "input" ||
+            e.target.tagName.toLowerCase() === "textarea" ||
+            e.target.tagName.toLowerCase() === "select"
+          ) {
+            // Get a selector for this element
+            const selector = getElementSelector(e.target);
+
+            // Determine if this is a sensitive field
+            const isSensitive =
+              e.target.type === "password" ||
+              e.target.name.toLowerCase().includes("password") ||
+              e.target.name.toLowerCase().includes("credit") ||
+              e.target.name.toLowerCase().includes("card");
+
+            // Record the input event with appropriate value masking
+            recordingEvents.push({
+              type: "input",
+              selector: selector,
+              value: isSensitive ? "••••••••" : e.target.value,
+              timestamp: Date.now() - recordingStartTime,
+            });
+          }
+        });
+
+        // Send data before user leaves the page
+        window.addEventListener("beforeunload", function () {
+          isRecording = false;
+          sendData();
+          sendRecording();
+        });
+
+        // Send heatmap data periodically (every 30 seconds)
+        setInterval(sendData, 30000);
+
+        // Send recording data in batches (every 10 seconds)
+        setInterval(function () {
+          if (
+            recordingEvents.length > 0 &&
+            Date.now() - lastRecordingBatch > 10000
+          ) {
+            sendRecording();
+            lastRecordingBatch = Date.now();
+          }
+        }, 10000);
+
+        function sendData() {
+          if (clicks.length === 0 && scrollDepths.length === 0) return;
+
+          const data = {
+            websiteId: WEBSITE_ID,
+            sessionId: sessionId,
+            url: window.location.href,
+            title: document.title,
+            viewport: {
+              width: viewportWidth,
+              height: viewportHeight,
+            },
+            documentHeight: documentHeight,
+            clicks: [...clicks],
+            scrollDepths: [...scrollDepths],
+            userAgent: navigator.userAgent,
+            device: deviceType,
+            timestamp: Date.now(),
+          };
+consolre.log("[Heatmap] Sending data to server:", data);
+          // Use sendBeacon for more reliable data sending when page is unloading
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(TRACKING_ENDPOINT, JSON.stringify(data));
+          } else {
+            fetch(TRACKING_ENDPOINT, {
+              method: "POST",
+              body: JSON.stringify(data),
+              keepalive: true,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).catch((err) =>
+              console.error("Error sending tracking data:", err)
+            );
+          }
+
+          // Clear sent data
+          clicks = [];
+          scrollDepths = [];
+        }
+
+        function sendRecording() {
+          if (recordingEvents.length === 0) return;
+
+          const recordingData = {
+            websiteId: WEBSITE_ID,
+            sessionId: sessionId,
+            url: window.location.href,
+            events: [...recordingEvents],
+            initialState: initialState,
+            userAgent: navigator.userAgent,
+            device: deviceType,
+            isComplete: !isRecording,
+            timestamp: Date.now(),
+          };
+
+          // Use sendBeacon for more reliable data sending when page is unloading
+          if (!isRecording && navigator.sendBeacon) {
+            navigator.sendBeacon(
+              RECORDING_ENDPOINT,
+              JSON.stringify(recordingData)
+            );
+          } else {
+            fetch(RECORDING_ENDPOINT, {
+              method: "POST",
+              body: JSON.stringify(recordingData),
+              keepalive: true,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).catch((err) =>
+              console.error("Error sending recording data:", err)
+            );
+          }
+
+          // Clear sent events
+          recordingEvents = [];
+        }
+
+        function generateSessionId() {
+          return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+            /[xy]/g,
+            function (c) {
+              const r = (Math.random() * 16) | 0;
+              const v = c === "x" ? r : (r & 0x3) | 0x8;
+              return v.toString(16);
+            }
+          );
+        }
+
+        function getElementSelector(element) {
+          if (element.id) {
+            return "#" + element.id;
+          }
+
+          if (element.className) {
+            const classes = element.className.split(" ").filter((c) => c);
+            if (classes.length > 0) {
+              return element.tagName.toLowerCase() + "." + classes.join(".");
+            }
+          }
+
+          return element.tagName.toLowerCase();
+        }
+      })());
     </script>
   </head>
   <body>
