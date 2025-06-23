@@ -20,7 +20,7 @@ import restify from '../assets/Images/easy-restify.png'
 import Headroom from 'react-headroom'
 import Contact from './Contact'
 import DownloadIcon from '@mui/icons-material/Download';
-import Resume from '../assets/resume/Kashan-Resume-v0.1.pdf'
+import Resume from '../assets/resume/Kashan-Resume.pdf'
 import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link';
 
